@@ -1,0 +1,28 @@
+service: educational-db
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  environment:
+    API_KEY: ${env:API_KEY}
+    DB_HOST: ${env:DB_HOST}
+    DB_USER: ${env:DB_USER}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${env:DB_NAME}
+    DB_PORT: ${env:DB_PORT}
+    FIREBASE_AUTH_KEY: ${env:FIREBASE_AUTH_KEY}
+
+functions:
+  main: # The name of the lambda function
+    # The module 'handler' is exported in the file 'src/lambda'
+    handler: src/lambda.handler
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
