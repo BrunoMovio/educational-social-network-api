@@ -24,11 +24,31 @@ export class UserService {
 
   async findUsersByName(name: string): Promise<UserDTO[]> {
     try {
-      const user = await this.userRepository.findByName(name);
+      const users = await this.userRepository.findByName(name);
 
-      return user.map((user) => new UserDTO(user));
+      return users.map((user) => new UserDTO(user));
     } catch (e) {
       throw new NotFoundException("User not found with name: " + name);
+    }
+  }
+
+  async findUsersByEmail(email: string): Promise<UserDTO> {
+    try {
+      const user = await this.userRepository.findByEmail(email);
+
+      return new UserDTO(user);
+    } catch (e) {
+      throw new NotFoundException("User not found with email: " + email);
+    }
+  }
+
+  async findUsersByNickname(nickname: string): Promise<UserDTO> {
+    try {
+      const user = await this.userRepository.findByNickname(nickname);
+
+      return new UserDTO(user);
+    } catch (e) {
+      throw new NotFoundException("User not found with nickname: " + nickname);
     }
   }
 }

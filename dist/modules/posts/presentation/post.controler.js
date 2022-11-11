@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-const post_service_1 = require("../application/post.service");
-const create_post_service_1 = require("../application/create-post.service");
-const post_input_1 = require("../application/dto/post.input");
-const remove_post_service_1 = require("../application/remove-post.service");
-const update_post_service_1 = require("../application/update-post.service");
+const post_service_1 = require("../application/post/post.service");
+const create_post_service_1 = require("../application/post/create-post.service");
+const post_input_1 = require("../application/post/dto/post.input");
+const remove_post_service_1 = require("../application/post/remove-post.service");
+const update_post_service_1 = require("../application/post/update-post.service");
 let PostController = class PostController {
     constructor(postService, createPostService, updatePostService, removePostService) {
         this.postService = postService;
@@ -28,28 +28,113 @@ let PostController = class PostController {
         this.removePostService = removePostService;
     }
     async createPost(input) {
-        return this.createPostService.create(input);
+        try {
+            const post = await this.createPostService.create(input);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.UNPROCESSABLE_ENTITY,
+                error: `${e}`,
+            }, common_1.HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
     async updatePost(input) {
-        return this.updatePostService.update(input);
+        try {
+            const post = await this.updatePostService.update(input);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_MODIFIED,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_MODIFIED);
+        }
     }
     async removePost(id) {
-        return this.removePostService.remove(id);
+        try {
+            const post = await this.removePostService.remove(id);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async getPost(id) {
-        return this.postService.findPost(id);
+        try {
+            const post = await this.postService.findPost(id);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async likePost(id) {
-        return this.updatePostService.likePost(id);
+        try {
+            const post = await this.updatePostService.likePost(id);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_MODIFIED,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async deslikePost(id) {
-        return this.updatePostService.deslikePost(id);
+        try {
+            const post = await this.updatePostService.deslikePost(id);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_MODIFIED,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async getPostByUserId(userId) {
-        return this.postService.findByUserId(userId);
+        try {
+            const post = await this.postService.findByUserId(userId);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async getPostByFolderId(folderId) {
+        try {
+            const post = await this.postService.findByFolderId(folderId);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async getContentCategory(category) {
-        return this.postService.findByCategory(category);
+        try {
+            const posts = await this.postService.findByCategory(category);
+            return posts;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
 };
 __decorate([
@@ -101,6 +186,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getPostByUserId", null);
+__decorate([
+    (0, common_1.Get)("folder/:folderId"),
+    __param(0, (0, common_1.Param)("folderId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getPostByFolderId", null);
 __decorate([
     (0, common_1.Get)("index/:category"),
     __param(0, (0, common_1.Param)("category")),

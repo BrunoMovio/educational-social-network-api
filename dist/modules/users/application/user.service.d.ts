@@ -6,4 +6,6 @@ export declare class UserService {
     findAll(): Promise<UserDTO[]>;
     findById(id: string): Promise<UserDTO>;
     findUsersByName(name: string): Promise<UserDTO[]>;
+    findUsersByEmail(email: string): Promise<UserDTO>;
+    findUsersByNickname(nickname: string): Promise<UserDTO>;
 }

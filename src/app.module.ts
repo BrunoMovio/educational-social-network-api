@@ -9,7 +9,6 @@ import { UserModule } from "./modules/users/user.module";
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormconfig),
-    CommonModule,
     AuthModule,
     PostModule,
     UserModule,

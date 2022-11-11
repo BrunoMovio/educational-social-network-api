@@ -37,7 +37,25 @@ export class UserOrmRepository extends TypeormRepositoryBase<
         name,
       },
     });
-    return users.map((post) => this.mapper.toDomainEntity(post));
+    return users.map((user) => this.mapper.toDomainEntity(user));
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+    return this.mapper.toDomainEntity(user);
+  }
+
+  async findByNickname(nickname: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        nickname,
+      },
+    });
+    return this.mapper.toDomainEntity(user);
   }
 
   // Used to construct a query
@@ -54,12 +72,28 @@ export class UserOrmRepository extends TypeormRepositoryBase<
       where.name = params.name;
     }
 
+    if (params.email) {
+      where.email = params.email;
+    }
+
+    if (params.role) {
+      where.role = params.role;
+    }
+
     if (params.description) {
       where.description = params.description;
     }
 
-    if (params.avatar) {
-      where.avatar = params.avatar;
+    if (params.city) {
+      where.city = params.city;
+    }
+
+    if (params.state) {
+      where.state = params.state;
+    }
+
+    if (params.country) {
+      where.country = params.country;
     }
 
     return where;

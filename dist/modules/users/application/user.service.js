@@ -33,11 +33,29 @@ let UserService = class UserService {
     }
     async findUsersByName(name) {
         try {
-            const user = await this.userRepository.findByName(name);
-            return user.map((user) => new user_output_1.UserDTO(user));
+            const users = await this.userRepository.findByName(name);
+            return users.map((user) => new user_output_1.UserDTO(user));
         }
         catch (e) {
             throw new common_1.NotFoundException("User not found with name: " + name);
+        }
+    }
+    async findUsersByEmail(email) {
+        try {
+            const user = await this.userRepository.findByEmail(email);
+            return new user_output_1.UserDTO(user);
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("User not found with email: " + email);
+        }
+    }
+    async findUsersByNickname(nickname) {
+        try {
+            const user = await this.userRepository.findByNickname(nickname);
+            return new user_output_1.UserDTO(user);
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("User not found with nickname: " + nickname);
         }
     }
 };

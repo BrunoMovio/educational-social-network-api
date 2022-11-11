@@ -19,11 +19,12 @@ const user_orm_mapper_1 = require("./infra/database/user.orm.mapper");
 const user_orm_repository_1 = require("./infra/database/user.orm.repository");
 const user_controler_1 = require("./presentation/user.controler");
 const auth_module_1 = require("../auth/auth.module");
+const post_module_1 = require("../posts/post.module");
 let UserModule = class UserModule {
 };
 UserModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_orm_entity_1.UserOrm]), auth_module_1.AuthModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([user_orm_entity_1.UserOrm]), auth_module_1.AuthModule, post_module_1.PostModule],
         providers: [
             user_orm_repository_1.UserOrmRepository,
             users_factory_1.UserFactory,

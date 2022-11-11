@@ -11,21 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveUserService = void 0;
 const common_1 = require("@nestjs/common");
-const id_1 = require("../../common/domain/value-objects/id");
+const auth_service_1 = require("../../auth/application/auth.service");
 const user_orm_repository_1 = require("../infra/database/user.orm.repository");
 let RemoveUserService = class RemoveUserService {
-    constructor(userReporsitory) {
+    constructor(userReporsitory, userAuthService) {
         this.userReporsitory = userReporsitory;
+        this.userAuthService = userAuthService;
     }
-    async remove(id) {
-        const user = await this.userReporsitory.findOneByIdOrThrow(new id_1.ID(id));
+    async remove(email) {
+        const user = await this.userReporsitory.findByEmail(email);
+        if (!user)
+            throw new Error("User not found to bem deleted by email: " + email);
+        await this.userAuthService.removeUserAuth(email);
         await this.userReporsitory.delete(user);
         return "Usuário deletado";
     }
 };
 RemoveUserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_orm_repository_1.UserOrmRepository])
+    __metadata("design:paramtypes", [user_orm_repository_1.UserOrmRepository,
+        auth_service_1.UserAuthService])
 ], RemoveUserService);
 exports.RemoveUserService = RemoveUserService;
 //# sourceMappingURL=remove-user.service.js.map

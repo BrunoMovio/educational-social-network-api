@@ -34,7 +34,23 @@ let UserOrmRepository = class UserOrmRepository extends typeorm_repository_base_
                 name,
             },
         });
-        return users.map((post) => this.mapper.toDomainEntity(post));
+        return users.map((user) => this.mapper.toDomainEntity(user));
+    }
+    async findByEmail(email) {
+        const user = await this.userRepository.findOne({
+            where: {
+                email,
+            },
+        });
+        return this.mapper.toDomainEntity(user);
+    }
+    async findByNickname(nickname) {
+        const user = await this.userRepository.findOne({
+            where: {
+                nickname,
+            },
+        });
+        return this.mapper.toDomainEntity(user);
     }
     prepareQuery(params) {
         const where = {};
@@ -44,11 +60,23 @@ let UserOrmRepository = class UserOrmRepository extends typeorm_repository_base_
         if (params.name) {
             where.name = params.name;
         }
+        if (params.email) {
+            where.email = params.email;
+        }
+        if (params.role) {
+            where.role = params.role;
+        }
         if (params.description) {
             where.description = params.description;
         }
-        if (params.avatar) {
-            where.avatar = params.avatar;
+        if (params.city) {
+            where.city = params.city;
+        }
+        if (params.state) {
+            where.state = params.state;
+        }
+        if (params.country) {
+            where.country = params.country;
         }
         return where;
     }

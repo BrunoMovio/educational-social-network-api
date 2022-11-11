@@ -6,6 +6,7 @@ export declare class UserAuthController {
         name: string;
         email: string;
         nickname: string;
+        password: string;
     }): Promise<import("firebase-admin/lib/auth/user-record").UserRecord>;
     userAuthDetails(email: string): Promise<string | Record<string, string>>;
     resetPassword(email: string): Promise<import("firebase-admin/lib/auth/user-record").UserRecord>;

@@ -13,6 +13,7 @@ async function bootstrapServer() {
     if (!cachedServer) {
         const expressApp = express();
         const nestApp = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(expressApp));
+        nestApp.enableCors();
         nestApp.use((0, middleware_1.eventContext)());
         await nestApp.init();
         cachedServer = (0, aws_serverless_express_1.createServer)(expressApp, undefined, binaryMimeTypes);

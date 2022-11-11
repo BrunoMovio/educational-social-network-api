@@ -1,11 +1,17 @@
-export declare class CreateUserInput {
+export declare class UserInput {
     name: string;
-    nickname?: string;
+    nickname: string;
     email: string;
-    description: string;
-    birthday: string;
-    avatar?: string;
+    role?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    description?: string;
+    career?: string;
 }
-export declare class UpdateUserInput extends CreateUserInput {
+export declare class CreateUserInput extends UserInput {
+    password: string;
+}
+export declare class UpdateUserInput extends UserInput {
     id: string;
 }

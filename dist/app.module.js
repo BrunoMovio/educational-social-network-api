@@ -11,7 +11,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const ormconfig_1 = require("./config/ormconfig");
 const auth_module_1 = require("./modules/auth/auth.module");
-const common_module_1 = require("./modules/common/common.module");
 const post_module_1 = require("./modules/posts/post.module");
 const user_module_1 = require("./modules/users/user.module");
 let AppModule = class AppModule {
@@ -20,7 +19,6 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default),
-            common_module_1.CommonModule,
             auth_module_1.AuthModule,
             post_module_1.PostModule,
             user_module_1.UserModule,

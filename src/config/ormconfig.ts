@@ -1,7 +1,8 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { join } from "path";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { PostOrm } from "../modules/posts/infra/database/post.orm.entity";
+import { PostOrm } from "../modules/posts/infra/database/post/post.orm.entity";
+import { FolderOrm } from "../modules/posts/infra/database/folder/folder.orm.entity";
 import { UserOrm } from "../modules/users/infra/database/user.orm.entity";
 
 export default {
@@ -11,7 +12,7 @@ export default {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: Number(process.env.DB_PORT) || 5432,
-  entities: [PostOrm, UserOrm],
+  entities: [PostOrm, FolderOrm, UserOrm],
   logging: false,
   migrations: [join(__dirname, "..", "migration", "*.{ts,js}")],
   cli: {

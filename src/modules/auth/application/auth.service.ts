@@ -7,6 +7,7 @@ export interface UserInfo {
   name: string;
   nickname: string;
   email: string;
+  password: string;
 }
 
 interface UpdateNicknameInput {
@@ -21,19 +22,16 @@ export class UserAuthService {
   async registerUser(userInfo: UserInfo): Promise<UserRecord> {
     const auth = admin.auth(firebaseApp);
 
-    // add nanoid to generate password
-    const randomPassword = "123456";
-
     let userRecord;
 
     try {
       userRecord = await auth.createUser({
         email: userInfo.email,
-        password: randomPassword,
+        password: userInfo.password,
         displayName: userInfo.name,
       });
     } catch (e) {
-      console.error(JSON.stringify(e.errorInfo));
+      throw new Error(e.errorInfo.message);
     }
 
     await auth.setCustomUserClaims(userRecord.uid, {

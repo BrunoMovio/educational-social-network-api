@@ -18,7 +18,7 @@ let UserFactory = class UserFactory {
         this.userRepository = userRepository;
     }
     async create(input) {
-        const user = new users_entity_1.User(Object.assign({}, input));
+        const user = new users_entity_1.User(Object.assign(Object.assign({}, input), { description: input.description || "Descrição", role: users_entity_1.UserRoles[input.role] || users_entity_1.UserRoles.NORMAL, city: input.city || "São Paulo", state: input.state || "SP", country: input.country || "Brasil", career: input.country || "Brasil" }));
         return this.userRepository.save(user);
     }
 };

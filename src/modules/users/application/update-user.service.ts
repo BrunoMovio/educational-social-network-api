@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { DateVO } from "../../common/domain/value-objects/date.vo";
 import { ID } from "../../common/domain/value-objects/id";
+import { UserRoles } from "../domain/users.entity";
 import { UserOrmRepository } from "../infra/database/user.orm.repository";
 import { UpdateUserInput } from "./dto/user.input";
 import { UserDTO } from "./dto/user.output";
@@ -15,10 +15,15 @@ export class UpdateUserService {
     });
 
     user.updateUser({
-      name: input.name,
+      email: input.email || user.email,
+      nickname: input.nickname || user.nickname,
+      name: input.name || user.name,
+      role: UserRoles[input.role] || user.role,
       description: input.description,
-      birthday: new DateVO(input.birthday),
-      avatar: input.avatar,
+      city: input.city,
+      state: input.state,
+      country: input.country,
+      career: input.career,
     });
 
     const savedPost = await this.userRepository.save(user);

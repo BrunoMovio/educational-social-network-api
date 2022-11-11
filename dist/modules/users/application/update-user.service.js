@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateUserService = void 0;
 const common_1 = require("@nestjs/common");
-const date_vo_1 = require("../../common/domain/value-objects/date.vo");
 const id_1 = require("../../common/domain/value-objects/id");
+const users_entity_1 = require("../domain/users.entity");
 const user_orm_repository_1 = require("../infra/database/user.orm.repository");
 const user_output_1 = require("./dto/user.output");
 let UpdateUserService = class UpdateUserService {
@@ -24,10 +24,15 @@ let UpdateUserService = class UpdateUserService {
             id: new id_1.ID(input.id),
         });
         user.updateUser({
-            name: input.name,
+            email: input.email || user.email,
+            nickname: input.nickname || user.nickname,
+            name: input.name || user.name,
+            role: users_entity_1.UserRoles[input.role] || user.role,
             description: input.description,
-            birthday: new date_vo_1.DateVO(input.birthday),
-            avatar: input.avatar,
+            city: input.city,
+            state: input.state,
+            country: input.country,
+            career: input.career,
         });
         const savedPost = await this.userRepository.save(user);
         return new user_output_1.UserDTO(savedPost);

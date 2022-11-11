@@ -10,9 +10,10 @@ import { UserOrmMapper } from "./infra/database/user.orm.mapper";
 import { UserOrmRepository } from "./infra/database/user.orm.repository";
 import { UserController } from "./presentation/user.controler";
 import { AuthModule } from "../auth/auth.module";
+import { PostModule } from "../posts/post.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserOrm]), AuthModule],
+  imports: [TypeOrmModule.forFeature([UserOrm]), AuthModule, PostModule],
   providers: [
     UserOrmRepository,
     UserFactory,

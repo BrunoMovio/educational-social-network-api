@@ -18,6 +18,7 @@ export class UserAuthController {
       name: string;
       email: string;
       nickname: string;
+      password: string;
     }
   ) {
     try {

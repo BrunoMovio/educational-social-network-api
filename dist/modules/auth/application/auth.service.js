@@ -17,17 +17,16 @@ let UserAuthService = class UserAuthService {
     constructor() { }
     async registerUser(userInfo) {
         const auth = admin.auth(auth_firebase_config_1.firebaseApp);
-        const randomPassword = "123456";
         let userRecord;
         try {
             userRecord = await auth.createUser({
                 email: userInfo.email,
-                password: randomPassword,
+                password: userInfo.password,
                 displayName: userInfo.name,
             });
         }
         catch (e) {
-            console.error(JSON.stringify(e.errorInfo));
+            throw new Error(e.errorInfo.message);
         }
         await auth.setCustomUserClaims(userRecord.uid, {
             nickname: userInfo.nickname,

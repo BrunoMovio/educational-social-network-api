@@ -27,27 +27,99 @@ let UserController = class UserController {
         this.updateUserService = updateUserService;
         this.removeUserService = removeUserService;
     }
-    async createUser(input) {
-        return this.createUserService.create(input);
+    async createUser(input, res) {
+        try {
+            console.log("A", input);
+            const user = await this.createUserService.create(input);
+            res.status(200).send(user);
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.UNPROCESSABLE_ENTITY,
+                error: `${e}`,
+            }, common_1.HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
     async updateUser(input) {
-        return this.updateUserService.update(input);
+        try {
+            const user = await this.updateUserService.update(input);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_MODIFIED,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_MODIFIED);
+        }
     }
-    async removeUser(id) {
-        return this.removeUserService.remove(id);
+    async removeUser(email) {
+        try {
+            const user = await this.removeUserService.remove(email);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
-    async getUserByName(name) {
-        return this.userService.findUsersByName(name);
+    async getUsersDByName(name) {
+        try {
+            const user = await this.userService.findUsersByName(name);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async getUserByEmail(email) {
+        try {
+            const user = await this.userService.findUsersByEmail(email);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async getUserByNickname(nickname) {
+        try {
+            const user = await this.userService.findUsersByNickname(nickname);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async getUser(id) {
-        return this.userService.findById(id);
+        try {
+            const user = await this.userService.findById(id);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
     }
 };
 __decorate([
     (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)("input")),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_input_1.CreateUserInput]),
+    __metadata("design:paramtypes", [user_input_1.CreateUserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
@@ -59,7 +131,7 @@ __decorate([
 ], UserController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Delete)("remove"),
-    __param(0, (0, common_1.Body)("id")),
+    __param(0, (0, common_1.Body)("email")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
@@ -70,7 +142,21 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "getUserByName", null);
+], UserController.prototype, "getUsersDByName", null);
+__decorate([
+    (0, common_1.Get)("email/:email"),
+    __param(0, (0, common_1.Param)("email")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserByEmail", null);
+__decorate([
+    (0, common_1.Get)("nickname/:nickname"),
+    __param(0, (0, common_1.Param)("nickname")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserByNickname", null);
 __decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),

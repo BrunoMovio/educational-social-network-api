@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/educational-db/dev/1665020165859-2022-10-06T01:36:05.859Z/educational-db.zip"
+          "S3Key": "serverless/educational-db/dev/1668118293468-2022-11-10T22:11:33.468Z/educational-db.zip"
         },
         "Handler": "_optimize/educational-db-dev-main/src/lambda.handler",
         "Runtime": "nodejs12.x",
@@ -171,11 +171,11 @@
         "Environment": {
           "Variables": {
             "API_KEY": "zrn4fyn_txa5QTQ2ytc",
-            "DB_HOST": "database-1.ceow0ksu0aip.us-east-1.rds.amazonaws.com",
-            "DB_USER": "postgres",
-            "DB_PASSWORD": "zrn4fyn_txa5QTQ2ytc",
-            "DB_NAME": "postgres",
-            "DB_PORT": "5432",
+            "DB_HOST": "chendev.site",
+            "DB_USER": "root",
+            "DB_PASSWORD": "root",
+            "DB_NAME": "test",
+            "DB_PORT": "8070",
             "FIREBASE_AUTH_KEY": "{\"type\": \"service_account\",\"project_id\": \"educational-social-network-usp\",\"private_key_id\": \"5dfd7b7d2fc3774a8342ddd9b057e292ac553018\",\"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCg1+AozeD3NP65\\nX69jDrLi+/7JZy/Tzjnfdory+JLq8nTIxJ8VBWNEI4ua85lXIO5tZW9eiIXY/6kR\\ngRB93ziryyr3J2IB6jzVHCJdlytdkBM4DuDmwQgfLDZlcHeujFqWsb97GIS2+Wv6\\nkajVM9cFQS4s4DKkq7eYoJNazSFI0RmLadKShn/kY9pQ8xlBT/Z3l60WcH0KBpa2\\nXokZJwtnp/re3w/RtPaUYjjl2T+6t7fKaqLEL40UGSlimHBWdgwVONnY03nzCgpx\\nctyBWQpiI6aQ8TYKF7cyEcykhH1jn9TDERE67IDdrbXZhOSBKYEHZqkOKIrFjvdi\\ng9mNZBv5AgMBAAECggEAShQjAagQvMqDpw0S0iSq7y/woQINXRfWP71xMYaa4+rX\\nLsCgJCZfGbrlSXB4Z1Cbf3cAXCG0w8S8MXuoBNESYM0p9LsGwKsJaX2Ttlcxed4p\\ne+AeZSjyfKj4RLAP7yxlbJJhBmi8dylZOgZsJAXEOn9SrQh1SrJr1LfgJinj8ozg\\nXjQyxAYdDBYRFZx818eC3I9otKulGlZ2OXdll3xjFTv2guuXP5ljMdGxGav+MfEa\\nv0ttzqM+WU+GcJ6sGXAWlcaP5E4L8GpaQK8yFQW2Wz3OaznYyEhpSeeG6FpjNV/W\\nzi/E9phR7NFrAnAZtGwvug02pxbC2bZKDiS6zEBIoQKBgQDXdhOg341TscXNuOLY\\nFh9AzhE3M+Hnvim2tCK4ZxuG6AK01pvV2+gYMqhvyTfVNitOZK6doA3EnoIEcVBE\\nvfSr4hT7KN6PN01cXjMwL8PVZ9mIoF5/ZyGdtHeFGFYIP68Fe4Sro3ZvMEV00l2t\\nbxCLgR3h22+teXlZE3bU02I34wKBgQC/GxC0/OxFn321X/jB6a123a7az9x15g6J\\nbpxxPUHpckmCBYffa6a2hrsMzFH22aOTqjYKNl/1rVBPe8oQYwDvPyyBtTLcxOlN\\nkOVF1CEEqPgjssJPfFghV3a4C3VDaHGfU28xxIl4SqgI82He5P6qbdDyuL+zbe6j\\n5x06DHzLcwKBgQCclUc2hsCirnNeSpsxBwK3igqg36exT1XpXYhOE0DCDiLJYZ3n\\nEeXekBIxCz70SGW4lxr/mq3m0nsS13bKPnJt5+Pvk4gK9NnX4u24ez4K/WnuDP4g\\nAMdBYUHrDACaBg4gIeANDMKpk58mgytpO2n+uFsLJPpITBuQTMDzcpvSmQKBgH6d\\nkwMm8+/pDOPHs0ve4/P2Smxk/Z8LjqQVqgcI3AuskfFYcr5fV7RlLbb8BG41okAq\\nrOU1Q3zFmIkg7i7POYZJ59YEVK+asyyWDKGoOzwYK1eTj1QUgVuN1HV5+fZwU5+J\\nKwnhOmd9pzlO75A7TlNisOav6ysZcdwcOuwD7AbrAoGAOkVYu9MFFmUH6DHpmHdN\\nxrKL6NmkfQAC2Vl13Q7K/6k1ULWEnxQIdo22mM6xybabEgpDFiG0iV/PjUUxCoyO\\ntaFEf6oGycRFzVMQU1PXwj2Jcbm3+rOMNwheYyDrcHQFbLOdjchpaXFHlTyMsqTe\\nEsqPD5IMPtf4xDTLetrzcno=\\n-----END PRIVATE KEY-----\\n\",\"client_email\": \"firebase-adminsdk-4whyo@educational-social-network-usp.iam.gserviceaccount.com\",\"client_id\": \"104833381791037692814\",\"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\"token_uri\": \"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-4whyo%40educational-social-network-usp.iam.gserviceaccount.com\"}"
           }
         },
@@ -190,14 +190,14 @@
         "MainLogGroup"
       ]
     },
-    "MainLambdaVersionLjPEs4BW4ephOYg5lBp6OCnhQMLkJTqk3C3BHABUHs": {
+    "MainLambdaVersionAL3qEv2SEMkpwS49ljbqkVWNaN3sEghvw4bmQRAFpKs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MainLambdaFunction"
         },
-        "CodeSha256": "GCwY0yZQqujQrmqoJGoNQWAyDt76GI3nUCisDO+cC2k="
+        "CodeSha256": "IA/hp6ohOcipqxjEqYCnsgMMxTHRtkQ0aVT0d33uUmg="
       }
     },
     "ApiGatewayRestApi": {
@@ -273,7 +273,7 @@
         "MainLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1665020120846": {
+    "ApiGatewayDeployment1668118262366": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -335,7 +335,7 @@
     "MainLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MainLambdaVersionLjPEs4BW4ephOYg5lBp6OCnhQMLkJTqk3C3BHABUHs"
+        "Ref": "MainLambdaVersionAL3qEv2SEMkpwS49ljbqkVWNaN3sEghvw4bmQRAFpKs"
       },
       "Export": {
         "Name": "sls-educational-db-dev-MainLambdaFunctionQualifiedArn"

@@ -19,17 +19,37 @@ __decorate([
     __metadata("design:type", String)
 ], UserOrm.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "text" }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], UserOrm.prototype, "description", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: "date" }),
-    __metadata("design:type", String)
-], UserOrm.prototype, "birthday", void 0);
+], UserOrm.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], UserOrm.prototype, "avatar", void 0);
+], UserOrm.prototype, "nickname", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "text", nullable: true }),
+    __metadata("design:type", String)
+], UserOrm.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], UserOrm.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], UserOrm.prototype, "city", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], UserOrm.prototype, "state", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], UserOrm.prototype, "country", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], UserOrm.prototype, "career", void 0);
 UserOrm = __decorate([
     (0, typeorm_1.Entity)("user")
 ], UserOrm);

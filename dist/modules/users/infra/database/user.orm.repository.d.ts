@@ -10,5 +10,7 @@ export declare class UserOrmRepository extends TypeormRepositoryBase<User, UserP
     protected relations: string[];
     constructor(userRepository: Repository<UserOrm>);
     findByName(name: string): Promise<User[]>;
+    findByEmail(email: string): Promise<User>;
+    findByNickname(nickname: string): Promise<User>;
     protected prepareQuery(params: QueryParams<UserProps>): WhereCondition<UserOrm>;
 }
