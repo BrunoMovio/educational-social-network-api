@@ -20,12 +20,14 @@ import {
 import { RemoveUserService } from "../application/remove-user.service";
 import { UpdateUserService } from "../application/update-user.service";
 import { Response } from "express";
+import { UserFeedService } from "../application/user-feed.service";
 
 @UseGuards(AuthGuard("api-key"))
 @Controller("user")
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly userFeedService: UserFeedService,
     private readonly createUserService: CreateUserService,
     private readonly updateUserService: UpdateUserService,
     private readonly removeUserService: RemoveUserService
@@ -139,6 +141,23 @@ export class UserController {
       const user = await this.userService.findById(id);
       return user;
     } catch (e: any) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `${e}`,
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+  }
+
+  @Get("feed/:userId/:page")
+  async getFeed(@Param("userId") userId: string, @Param("page") page: number) {
+    try {
+      const feed = await this.userFeedService.findByUser({ userId, page });
+      return feed;
+    } catch (e: any) {
+      console.log(e);
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,

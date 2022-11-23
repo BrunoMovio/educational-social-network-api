@@ -1,5 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { Injectable, Logger } from "@nestjs/common";
 import {
   TypeormRepositoryBase,
@@ -30,6 +30,7 @@ export class UserOrmRepository extends TypeormRepositoryBase<
   ) {
     super(userRepository, new UserOrmMapper(), new Logger("post-repository"));
   }
+  protected PAGE_SIZE: number = 3;
 
   async findByName(name: string) {
     const users = await this.userRepository.find({
@@ -56,6 +57,18 @@ export class UserOrmRepository extends TypeormRepositoryBase<
       },
     });
     return this.mapper.toDomainEntity(user);
+  }
+
+  async findFeedByUserId(userId: string, page: number) {
+    const users = await this.userRepository.find({
+      where: {
+        userId: Not(userId),
+      },
+      take: this.PAGE_SIZE,
+      skip: page * this.PAGE_SIZE,
+    });
+
+    return users.map((user) => this.mapper.toDomainEntity(user));
   }
 
   // Used to construct a query

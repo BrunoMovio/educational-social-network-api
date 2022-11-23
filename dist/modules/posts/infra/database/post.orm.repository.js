@@ -16,10 +16,10 @@ exports.PostOrmRepository = exports.Includes = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const common_1 = require("@nestjs/common");
-const typeorm_repository_base_1 = require("../../../common/database/typeorm.repository.base");
 const post_orm_entity_1 = require("./post.orm.entity");
 const post_orm_mapper_1 = require("./post.orm.mapper");
 const typeorm_3 = require("typeorm");
+const typeorm_repository_base_1 = require("../../../../modules/common/database/typeorm.repository.base");
 const Includes = (value) => (0, typeorm_3.Raw)((columnAlias) => `:value = ANY(${columnAlias})`, { value });
 exports.Includes = Includes;
 let PostOrmRepository = class PostOrmRepository extends typeorm_repository_base_1.TypeormRepositoryBase {
@@ -27,6 +27,7 @@ let PostOrmRepository = class PostOrmRepository extends typeorm_repository_base_
         super(postRepository, new post_orm_mapper_1.PostOrmMapper(), new common_1.Logger("post-repository"));
         this.postRepository = postRepository;
         this.relations = [];
+        this.PAGE_SIZE = 10;
     }
     async findManyByCategory(tag) {
         const posts = await this.postRepository
@@ -34,7 +35,7 @@ let PostOrmRepository = class PostOrmRepository extends typeorm_repository_base_
             .select()
             .where(`tags->'category' @> '"${tag}"'`)
             .getMany();
-        return posts.map((content) => this.mapper.toDomainEntity(content));
+        return posts.map((post) => this.mapper.toDomainEntity(post));
     }
     async findManyByUserId(userId) {
         const posts = await this.postRepository.find({
@@ -42,12 +43,50 @@ let PostOrmRepository = class PostOrmRepository extends typeorm_repository_base_
                 userId,
             },
         });
-        return posts.map((content) => this.mapper.toDomainEntity(content));
+        return posts.map((post) => this.mapper.toDomainEntity(post));
     }
-    async findOneByName(name) {
+    async findFeedByUserId(userId, page) {
         const posts = await this.postRepository.find({
             where: {
-                name,
+                userId: (0, typeorm_2.Not)(userId),
+            },
+            take: this.PAGE_SIZE,
+            skip: page * this.PAGE_SIZE,
+        });
+        return posts.map((post) => this.mapper.toDomainEntity(post));
+    }
+    async findUnverifiedPosts(page) {
+        const posts = await this.postRepository.find({
+            where: {
+                verified: (0, typeorm_2.Not)(true),
+            },
+            take: this.PAGE_SIZE,
+            skip: page * this.PAGE_SIZE,
+        });
+        return posts.map((post) => this.mapper.toDomainEntity(post));
+    }
+    async findVerifiedPosts(page) {
+        const posts = await this.postRepository.find({
+            where: {
+                verified: true,
+            },
+            take: this.PAGE_SIZE,
+            skip: page * this.PAGE_SIZE,
+        });
+        return posts.map((post) => this.mapper.toDomainEntity(post));
+    }
+    async findManyByFolderId(folderId) {
+        const posts = await this.postRepository.find({
+            where: {
+                folderId,
+            },
+        });
+        return posts.map((post) => this.mapper.toDomainEntity(post));
+    }
+    async findOneByTitle(title) {
+        const posts = await this.postRepository.find({
+            where: {
+                title,
             },
         });
         return this.mapper.toDomainEntity(posts[0]);
@@ -60,17 +99,29 @@ let PostOrmRepository = class PostOrmRepository extends typeorm_repository_base_
         if (params.userId) {
             where.userId = params.userId.value;
         }
-        if (params.name) {
-            where.name = params.name;
+        if (params.folderId) {
+            where.userId = params.folderId.value;
+        }
+        if (params.title) {
+            where.title = params.title;
+        }
+        if (params.subtitle) {
+            where.subtitle = params.subtitle;
         }
         if (params.tags) {
             where.tags = params.tags;
         }
-        if (params.markdown) {
-            where.markdown = params.markdown;
+        if (params.text) {
+            where.text = params.text;
         }
         if (params.likes) {
             where.likes = params.likes;
+        }
+        if (params.verified) {
+            where.verified = params.verified;
+        }
+        if (params.verifiedBy) {
+            where.verifiedBy = params.verifiedBy;
         }
         return where;
     }

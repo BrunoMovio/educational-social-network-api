@@ -20,16 +20,17 @@ const create_user_service_1 = require("../application/create-user.service");
 const user_input_1 = require("../application/dto/user.input");
 const remove_user_service_1 = require("../application/remove-user.service");
 const update_user_service_1 = require("../application/update-user.service");
+const user_feed_service_1 = require("../application/user-feed.service");
 let UserController = class UserController {
-    constructor(userService, createUserService, updateUserService, removeUserService) {
+    constructor(userService, userFeedService, createUserService, updateUserService, removeUserService) {
         this.userService = userService;
+        this.userFeedService = userFeedService;
         this.createUserService = createUserService;
         this.updateUserService = updateUserService;
         this.removeUserService = removeUserService;
     }
     async createUser(input, res) {
         try {
-            console.log("A", input);
             const user = await this.createUserService.create(input);
             res.status(200).send(user);
         }
@@ -113,6 +114,19 @@ let UserController = class UserController {
             }, common_1.HttpStatus.NOT_FOUND);
         }
     }
+    async getFeed(userId, page) {
+        try {
+            const feed = await this.userFeedService.findByUser({ userId, page });
+            return feed;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
 };
 __decorate([
     (0, common_1.Post)("create"),
@@ -164,10 +178,19 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUser", null);
+__decorate([
+    (0, common_1.Get)("feed/:userId/:page"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Param)("page")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getFeed", null);
 UserController = __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("api-key")),
     (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService,
+        user_feed_service_1.UserFeedService,
         create_user_service_1.CreateUserService,
         update_user_service_1.UpdateUserService,
         remove_user_service_1.RemoveUserService])

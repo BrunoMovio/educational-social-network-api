@@ -24,7 +24,7 @@ let UpdatePostService = class UpdatePostService {
         });
         post.updatePost({
             userId: new id_1.ID(input.userId),
-            name: input.name,
+            name: input.title,
             tags: input.tags,
             markdown: input.markdown,
             likes: post.likes,

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { CreateFolderService } from "../../../modules/posts/application/folder/create-folder.service";
+import { CreateFolderService } from "../../../modules/folders/application/create-folder.service";
 import { UserAuthService } from "../../auth/application/auth.service";
 import { UserFactory } from "../domain/users.factory";
 import { UserOrmRepository } from "../infra/database/user.orm.repository";
@@ -16,6 +16,26 @@ export class CreateUserService {
 
   async create(input: CreateUserInput): Promise<UserDTO> {
     let authUser;
+    let user;
+    let userFolder;
+
+    try {
+      const userFactory = new UserFactory();
+      user = await userFactory.create({
+        ...input,
+      });
+
+      await this.userRepository.save(user);
+
+      userFolder = await this.createFolderService.create({
+        userId: user.id.value,
+        title: "Primeiro projeto",
+        description: "Primeiro projeto",
+      });
+    } catch (e) {
+      throw new Error("Cannot create database user: " + e);
+    }
+
     try {
       authUser = await this.userAuthService.registerUser({
         name: input.name,
@@ -27,22 +47,6 @@ export class CreateUserService {
       throw new Error("Cannot create firebase user: " + e);
     }
 
-    try {
-      const userFactory = new UserFactory(this.userRepository);
-      const user = await userFactory.create({
-        ...input,
-      });
-
-      const userFolder = await this.createFolderService.create({
-        userId: user.id.value,
-        name: "Primeira pasta",
-      });
-
-      console.log("B", userFolder);
-
-      return new UserDTO(user, userFolder);
-    } catch (e) {
-      throw new Error("Cannot create database user: " + e);
-    }
+    return new UserDTO({ user, firstFolderId: userFolder.id });
   }
 }

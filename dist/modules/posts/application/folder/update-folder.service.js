@@ -11,27 +11,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateFolderService = void 0;
 const common_1 = require("@nestjs/common");
+const user_service_1 = require("../../../users/application/user.service");
 const id_1 = require("../../../../modules/common/domain/value-objects/id");
 const folder_orm_repository_1 = require("../../infra/database/folder/folder.orm.repository");
 const folder_output_1 = require("./dto/folder.output");
 let UpdateFolderService = class UpdateFolderService {
-    constructor(folderRepository) {
+    constructor(folderRepository, userService) {
         this.folderRepository = folderRepository;
+        this.userService = userService;
     }
     async update(input) {
         const folder = await this.folderRepository.findOne({
             id: new id_1.ID(input.id),
         });
         folder.updateFolder({
-            name: input.name,
+            title: input.title,
+            description: input.description,
         });
         const savedFolder = await this.folderRepository.save(folder);
-        return new folder_output_1.FolderDTO(savedFolder);
+        const user = await this.userService.findById(folder.userId.value);
+        return new folder_output_1.FolderDTO(savedFolder, user);
     }
 };
 UpdateFolderService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository])
+    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository,
+        user_service_1.UserService])
 ], UpdateFolderService);
 exports.UpdateFolderService = UpdateFolderService;
 //# sourceMappingURL=update-folder.service.js.map

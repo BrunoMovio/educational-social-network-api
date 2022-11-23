@@ -12,20 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostFactory = void 0;
 const common_1 = require("@nestjs/common");
 const id_1 = require("../../../modules/common/domain/value-objects/id");
-const post_orm_repository_1 = require("../infra/database/post.orm.repository");
 const posts_entity_1 = require("./posts.entity");
 let PostFactory = class PostFactory {
-    constructor(postRepository) {
-        this.postRepository = postRepository;
-    }
-    async create(input) {
-        const post = new posts_entity_1.Post(Object.assign(Object.assign({}, input), { userId: new id_1.ID(input.userId), likes: 0 }));
-        return this.postRepository.save(post);
+    constructor() { }
+    create(input) {
+        const post = new posts_entity_1.Post(Object.assign(Object.assign({}, input), { userId: new id_1.ID(input.userId), folderId: new id_1.ID(input.folderId), likes: 0, usersLiked: [], verified: false }));
+        return post;
     }
 };
 PostFactory = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [post_orm_repository_1.PostOrmRepository])
+    __metadata("design:paramtypes", [])
 ], PostFactory);
 exports.PostFactory = PostFactory;
 //# sourceMappingURL=posts.factory.js.map

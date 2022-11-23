@@ -2,10 +2,10 @@ import { BaseEntityProps } from "../domain/base-classes/entity.base";
 import { Logger } from "../domain/ports/logger.port";
 import { RepositoryPort, QueryParams, FindManyPaginatedParams, DataWithPaginationMeta } from "../domain/ports/repository.ports";
 import { ID } from "../domain/value-objects/id";
-import { FindConditions, ObjectLiteral, Repository } from "typeorm";
+import { DeepPartial, FindConditions, ObjectLiteral, Repository } from "typeorm";
 import { OrmMapper } from "./orm-mapper.base";
 export declare type WhereCondition<OrmEntity> = FindConditions<OrmEntity>[] | FindConditions<OrmEntity> | ObjectLiteral | string;
-export declare abstract class TypeormRepositoryBase<Entity extends BaseEntityProps, EntityProps, OrmEntity> implements RepositoryPort<Entity, EntityProps> {
+export declare abstract class TypeormRepositoryBase<Entity extends BaseEntityProps, EntityProps, OrmEntity extends DeepPartial<OrmEntity>> implements RepositoryPort<Entity, EntityProps> {
     protected readonly repository: Repository<OrmEntity>;
     protected readonly mapper: OrmMapper<Entity, OrmEntity>;
     protected readonly logger: Logger;

@@ -1,4 +1,4 @@
-import { CreateFolderService } from "../../../modules/posts/application/folder/create-folder.service";
+import { CreateFolderService } from "../../../modules/folders/application/create-folder.service";
 import { UserAuthService } from "../../auth/application/auth.service";
 import { UserOrmRepository } from "../infra/database/user.orm.repository";
 import { CreateUserInput } from "./dto/user.input";

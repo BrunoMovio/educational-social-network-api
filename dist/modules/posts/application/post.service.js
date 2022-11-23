@@ -11,29 +11,95 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostService = void 0;
 const common_1 = require("@nestjs/common");
+const folder_service_1 = require("../../folders/application/folder.service");
+const user_service_1 = require("../../users/application/user.service");
 const id_1 = require("../../../modules/common/domain/value-objects/id");
-const post_orm_repository_1 = require("../infra/database/post.orm.repository");
+const post_orm_repository_1 = require("../infra/post/post.orm.repository");
 const post_output_1 = require("./dto/post.output");
 let PostService = class PostService {
-    constructor(postRepository) {
+    constructor(postRepository, userService, folderService) {
         this.postRepository = postRepository;
+        this.userService = userService;
+        this.folderService = folderService;
     }
     async findAll() {
-        const posts = await this.postRepository.findMany();
-        return posts.map((content) => new post_output_1.PostDTO(content));
+        try {
+            const posts = await this.postRepository.findMany();
+            return Promise.all(posts.map(async (post) => {
+                const user = await this.userService.findById(post.userId.value);
+                if (!user)
+                    throw new common_1.NotFoundException("User not found");
+                const folder = await this.folderService.findById(post.folderId.value);
+                if (!folder)
+                    throw new common_1.NotFoundException("Folder not found");
+                return new post_output_1.PostDTO({ post, user, folder });
+            }));
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("Posts not found");
+        }
     }
     async findByCategory(category) {
-        const posts = await this.postRepository.findManyByCategory(category);
-        return posts.map((content) => new post_output_1.PostDTO(content));
+        try {
+            const posts = await this.postRepository.findManyByCategory(category);
+            return Promise.all(posts.map(async (post) => {
+                const user = await this.userService.findById(post.userId.value);
+                if (!user)
+                    throw new common_1.NotFoundException("User not found");
+                const folder = await this.folderService.findById(post.folderId.value);
+                if (!folder)
+                    throw new common_1.NotFoundException("Folder not found");
+                return new post_output_1.PostDTO({ post, user, folder });
+            }));
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("Posts not found with category: " + category);
+        }
     }
     async findByUserId(userId) {
-        const posts = await this.postRepository.findManyByUserId(userId);
-        return posts.map((content) => new post_output_1.PostDTO(content));
+        try {
+            const posts = await this.postRepository.findManyByUserId(userId);
+            return Promise.all(posts.map(async (post) => {
+                const user = await this.userService.findById(post.userId.value);
+                if (!user)
+                    throw new common_1.NotFoundException("User not found");
+                const folder = await this.folderService.findById(post.folderId.value);
+                if (!folder)
+                    throw new common_1.NotFoundException("Folder not found");
+                return new post_output_1.PostDTO({ post, user, folder });
+            }));
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("Post not found with userId: " + userId);
+        }
+    }
+    async findByFolderId(folderId) {
+        try {
+            const posts = await this.postRepository.findManyByFolderId(folderId);
+            return Promise.all(posts.map(async (post) => {
+                const user = await this.userService.findById(post.userId.value);
+                if (!user)
+                    throw new common_1.NotFoundException("User not found");
+                const folder = await this.folderService.findById(post.folderId.value);
+                if (!folder)
+                    throw new common_1.NotFoundException("Folder not found");
+                return new post_output_1.PostDTO({ post, user, folder });
+            }));
+        }
+        catch (e) {
+            throw new common_1.NotFoundException("Post not found with folderId: " + folderId);
+        }
     }
     async findPost(id) {
         try {
             const post = await this.postRepository.findOne({ id: new id_1.ID(id) });
-            return new post_output_1.PostDTO(post);
+            const user = await this.userService.findById(post.userId.value);
+            if (!user)
+                throw new common_1.NotFoundException("User not found");
+            const folder = await this.folderService.findById(post.folderId.value);
+            if (!folder)
+                throw new common_1.NotFoundException("Folder not found");
+            return new post_output_1.PostDTO({ post, user, folder });
         }
         catch (e) {
             throw new common_1.NotFoundException("Post not found with id: " + id);
@@ -41,8 +107,14 @@ let PostService = class PostService {
     }
     async findPostByName(name) {
         try {
-            const post = await this.postRepository.findOneByName(name);
-            return new post_output_1.PostDTO(post);
+            const post = await this.postRepository.findOneByTitle(name);
+            const user = await this.userService.findById(post.userId.value);
+            if (!user)
+                throw new common_1.NotFoundException("User not found");
+            const folder = await this.folderService.findById(post.folderId.value);
+            if (!folder)
+                throw new common_1.NotFoundException("Folder not found");
+            return new post_output_1.PostDTO({ post, user, folder });
         }
         catch (e) {
             throw new common_1.NotFoundException("Post not found with name: " + name);
@@ -51,7 +123,9 @@ let PostService = class PostService {
 };
 PostService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [post_orm_repository_1.PostOrmRepository])
+    __metadata("design:paramtypes", [post_orm_repository_1.PostOrmRepository,
+        user_service_1.UserService,
+        folder_service_1.FolderService])
 ], PostService);
 exports.PostService = PostService;
 //# sourceMappingURL=post.service.js.map

@@ -26,7 +26,7 @@ export class UpdateUserService {
       career: input.career,
     });
 
-    const savedPost = await this.userRepository.save(user);
-    return new UserDTO(savedPost);
+    const savedUser = await this.userRepository.save(user);
+    return new UserDTO({ user: savedUser });
   }
 }

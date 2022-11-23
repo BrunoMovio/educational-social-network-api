@@ -19,16 +19,22 @@ const user_orm_mapper_1 = require("./infra/database/user.orm.mapper");
 const user_orm_repository_1 = require("./infra/database/user.orm.repository");
 const user_controler_1 = require("./presentation/user.controler");
 const auth_module_1 = require("../auth/auth.module");
-const post_module_1 = require("../posts/post.module");
+const folder_module_1 = require("../folders/folder.module");
+const user_feed_service_1 = require("./application/user-feed.service");
 let UserModule = class UserModule {
 };
 UserModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_orm_entity_1.UserOrm]), auth_module_1.AuthModule, post_module_1.PostModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([user_orm_entity_1.UserOrm]),
+            auth_module_1.AuthModule,
+            (0, common_1.forwardRef)(() => folder_module_1.FolderModule),
+        ],
         providers: [
             user_orm_repository_1.UserOrmRepository,
             users_factory_1.UserFactory,
             user_service_1.UserService,
+            user_feed_service_1.UserFeedService,
             create_user_service_1.CreateUserService,
             update_user_service_1.UpdateUserService,
             remove_user_service_1.RemoveUserService,

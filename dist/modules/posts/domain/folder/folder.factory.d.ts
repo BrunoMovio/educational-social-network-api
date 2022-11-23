@@ -2,7 +2,8 @@ import { FolderOrmRepository } from "../../infra/database/folder/folder.orm.repo
 import { Folder } from "./folder.entity";
 interface CreateFolderInput {
     userId: string;
-    name: string;
+    title: string;
+    description: string;
 }
 export declare class FolderFactory {
     private folderRepository;

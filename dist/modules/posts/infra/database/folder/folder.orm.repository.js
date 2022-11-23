@@ -33,10 +33,10 @@ let FolderOrmRepository = class FolderOrmRepository extends typeorm_repository_b
         });
         return folders.map((content) => this.mapper.toDomainEntity(content));
     }
-    async findOneByName(name) {
+    async findOneByTitle(title) {
         const folder = await this.folderRepository.findOne({
             where: {
-                name,
+                title,
             },
         });
         return this.mapper.toDomainEntity(folder);
@@ -49,8 +49,17 @@ let FolderOrmRepository = class FolderOrmRepository extends typeorm_repository_b
         if (params.userId) {
             where.userId = params.userId.value;
         }
-        if (params.name) {
-            where.name = params.name;
+        if (params.title) {
+            where.title = params.title;
+        }
+        if (params.description) {
+            where.description = params.description;
+        }
+        if (params.createdAt) {
+            where.createdAt = params.createdAt;
+        }
+        if (params.updatedAt) {
+            where.updatedAt = params.updatedAt;
         }
         return where;
     }

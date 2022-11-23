@@ -15,17 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-const post_service_1 = require("../application/post/post.service");
-const create_post_service_1 = require("../application/post/create-post.service");
-const post_input_1 = require("../application/post/dto/post.input");
-const remove_post_service_1 = require("../application/post/remove-post.service");
-const update_post_service_1 = require("../application/post/update-post.service");
+const create_post_service_1 = require("../application/create-post.service");
+const post_input_1 = require("../application/dto/post.input");
+const post_feed_service_1 = require("../application/post-feed.service");
+const post_service_1 = require("../application/post.service");
+const remove_post_service_1 = require("../application/remove-post.service");
+const update_post_service_1 = require("../application/update-post.service");
 let PostController = class PostController {
-    constructor(postService, createPostService, updatePostService, removePostService) {
+    constructor(postService, createPostService, updatePostService, removePostService, postFeedService) {
         this.postService = postService;
         this.createPostService = createPostService;
         this.updatePostService = updatePostService;
         this.removePostService = removePostService;
+        this.postFeedService = postFeedService;
     }
     async createPost(input) {
         try {
@@ -75,28 +77,28 @@ let PostController = class PostController {
             }, common_1.HttpStatus.NOT_FOUND);
         }
     }
-    async likePost(id) {
+    async likePost(input) {
         try {
-            const post = await this.updatePostService.likePost(id);
+            const post = await this.updatePostService.likePost(input.postId, input.userId);
             return post;
         }
         catch (e) {
             throw new common_1.HttpException({
                 status: common_1.HttpStatus.NOT_MODIFIED,
                 error: `${e}`,
-            }, common_1.HttpStatus.NOT_FOUND);
+            }, common_1.HttpStatus.NOT_MODIFIED);
         }
     }
-    async deslikePost(id) {
+    async deslikePost(input) {
         try {
-            const post = await this.updatePostService.deslikePost(id);
+            const post = await this.updatePostService.deslikePost(input.postId, input.userId);
             return post;
         }
         catch (e) {
             throw new common_1.HttpException({
                 status: common_1.HttpStatus.NOT_MODIFIED,
                 error: `${e}`,
-            }, common_1.HttpStatus.NOT_FOUND);
+            }, common_1.HttpStatus.NOT_MODIFIED);
         }
     }
     async getPostByUserId(userId) {
@@ -136,6 +138,57 @@ let PostController = class PostController {
             }, common_1.HttpStatus.NOT_FOUND);
         }
     }
+    async getFeed(userId, page) {
+        try {
+            const feed = await this.postFeedService.findByUser({ userId, page });
+            return feed;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async getVerifiedFeed(page) {
+        try {
+            const feed = await this.postFeedService.findVerified({ page });
+            return feed;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async getUnverifiedFeed(page) {
+        try {
+            const feed = await this.postFeedService.findUnverified({ page });
+            return feed;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.NOT_FOUND,
+                error: `${e}`,
+            }, common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async verifyPost(input) {
+        try {
+            const post = await this.updatePostService.verifyPost(input.userId, input.postId);
+            return post;
+        }
+        catch (e) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.UNAUTHORIZED,
+                error: `${e}`,
+            }, common_1.HttpStatus.UNAUTHORIZED);
+        }
+    }
 };
 __decorate([
     (0, common_1.Post)("create"),
@@ -167,16 +220,16 @@ __decorate([
 ], PostController.prototype, "getPost", null);
 __decorate([
     (0, common_1.Post)(":id/like"),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Body)("input")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "likePost", null);
 __decorate([
     (0, common_1.Post)(":id/deslike"),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Body)("input")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "deslikePost", null);
 __decorate([
@@ -200,13 +253,43 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getContentCategory", null);
+__decorate([
+    (0, common_1.Get)("feed/:userId/:page"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Param)("page")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getFeed", null);
+__decorate([
+    (0, common_1.Get)("feed/verified/:page"),
+    __param(0, (0, common_1.Param)("page")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getVerifiedFeed", null);
+__decorate([
+    (0, common_1.Get)("feed/unverified/:page"),
+    __param(0, (0, common_1.Param)("page")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getUnverifiedFeed", null);
+__decorate([
+    (0, common_1.Post)("verify"),
+    __param(0, (0, common_1.Body)("input")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "verifyPost", null);
 PostController = __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("api-key")),
     (0, common_1.Controller)("post"),
     __metadata("design:paramtypes", [post_service_1.PostService,
         create_post_service_1.CreatePostService,
         update_post_service_1.UpdatePostService,
-        remove_post_service_1.RemovePostService])
+        remove_post_service_1.RemovePostService,
+        post_feed_service_1.PostFeedService])
 ], PostController);
 exports.PostController = PostController;
 //# sourceMappingURL=post.controler.js.map

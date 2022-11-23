@@ -6,10 +6,10 @@ export class UserOrm extends TypeormEntityBase {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ unique: true })
   nickname: string;
 
   @Column({ type: "text", nullable: true })

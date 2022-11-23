@@ -52,6 +52,8 @@ class User extends entity_base_1.Entity {
             this.props.country = props.country;
         if (props.career)
             this.props.career = props.career;
+        if (props.city)
+            this.props.city = props.city;
     }
 }
 exports.User = User;

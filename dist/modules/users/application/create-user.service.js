@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserService = void 0;
 const common_1 = require("@nestjs/common");
-const create_folder_service_1 = require("../../../modules/posts/application/folder/create-folder.service");
+const create_folder_service_1 = require("../../../modules/folders/application/create-folder.service");
 const auth_service_1 = require("../../auth/application/auth.service");
 const users_factory_1 = require("../domain/users.factory");
 const user_orm_repository_1 = require("../infra/database/user.orm.repository");
@@ -24,6 +24,21 @@ let CreateUserService = class CreateUserService {
     }
     async create(input) {
         let authUser;
+        let user;
+        let userFolder;
+        try {
+            const userFactory = new users_factory_1.UserFactory();
+            user = await userFactory.create(Object.assign({}, input));
+            await this.userRepository.save(user);
+            userFolder = await this.createFolderService.create({
+                userId: user.id.value,
+                title: "Primeiro projeto",
+                description: "Primeiro projeto",
+            });
+        }
+        catch (e) {
+            throw new Error("Cannot create database user: " + e);
+        }
         try {
             authUser = await this.userAuthService.registerUser({
                 name: input.name,
@@ -35,19 +50,7 @@ let CreateUserService = class CreateUserService {
         catch (e) {
             throw new Error("Cannot create firebase user: " + e);
         }
-        try {
-            const userFactory = new users_factory_1.UserFactory(this.userRepository);
-            const user = await userFactory.create(Object.assign({}, input));
-            const userFolder = await this.createFolderService.create({
-                userId: user.id.value,
-                name: "Primeira pasta",
-            });
-            console.log("B", userFolder);
-            return new user_output_1.UserDTO(user, userFolder);
-        }
-        catch (e) {
-            throw new Error("Cannot create database user: " + e);
-        }
+        return new user_output_1.UserDTO({ user, firstFolderId: userFolder.id });
     }
 };
 CreateUserService = __decorate([

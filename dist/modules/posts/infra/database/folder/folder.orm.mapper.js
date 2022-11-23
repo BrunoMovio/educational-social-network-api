@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FolderOrmMapper = void 0;
 const common_1 = require("@nestjs/common");
+const date_vo_1 = require("../../../../common/domain/value-objects/date.vo");
 const orm_mapper_base_1 = require("../../../../../modules/common/database/orm-mapper.base");
 const id_1 = require("../../../../../modules/common/domain/value-objects/id");
 const folder_entity_1 = require("../../../../../modules/posts/domain/folder/folder.entity");
@@ -22,14 +23,18 @@ let FolderOrmMapper = class FolderOrmMapper extends orm_mapper_base_1.OrmMapper 
     toOrmProps(entity) {
         const ormProps = {
             userId: entity.getPropsCopy().userId.value,
-            name: entity.getPropsCopy().name,
+            title: entity.getPropsCopy().title,
+            description: entity.getPropsCopy().description,
         };
         return ormProps;
     }
     toDomainProps(ormEntity) {
         const props = {
             userId: new id_1.ID(ormEntity.userId),
-            name: ormEntity.name,
+            title: ormEntity.title,
+            description: ormEntity.description,
+            createdAt: new date_vo_1.DateVO(ormEntity.createdAt),
+            updatedAt: new date_vo_1.DateVO(ormEntity.updatedAt),
         };
         return props;
     }

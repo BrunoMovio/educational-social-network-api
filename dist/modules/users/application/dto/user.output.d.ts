@@ -1,7 +1,9 @@
-import { FolderDTO } from "src/modules/posts/application/folder/dto/folder.output";
 import { User } from "../../domain/users.entity";
 export declare class UserDTO {
-    constructor(props: User, folder?: FolderDTO);
+    constructor(props: {
+        user: User;
+        firstFolderId?: string;
+    });
     id: string;
     name: string;
     email: string;

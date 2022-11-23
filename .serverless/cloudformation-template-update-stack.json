@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/educational-db/dev/1668118293468-2022-11-10T22:11:33.468Z/educational-db.zip"
+          "S3Key": "serverless/educational-db/dev/1669215526589-2022-11-23T14:58:46.589Z/educational-db.zip"
         },
         "Handler": "_optimize/educational-db-dev-main/src/lambda.handler",
         "Runtime": "nodejs12.x",
@@ -190,14 +190,14 @@
         "MainLogGroup"
       ]
     },
-    "MainLambdaVersionAL3qEv2SEMkpwS49ljbqkVWNaN3sEghvw4bmQRAFpKs": {
+    "MainLambdaVersionsKSksbqX97VAbrJA5u1an2PMbhk4xkj86HBTEkHSc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MainLambdaFunction"
         },
-        "CodeSha256": "IA/hp6ohOcipqxjEqYCnsgMMxTHRtkQ0aVT0d33uUmg="
+        "CodeSha256": "iTlE3BWewqqe7mscWX8yprScd3WaPER1n5aoPiYrfjM="
       }
     },
     "ApiGatewayRestApi": {
@@ -273,7 +273,7 @@
         "MainLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1668118262366": {
+    "ApiGatewayDeployment1669215493968": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -335,7 +335,7 @@
     "MainLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MainLambdaVersionAL3qEv2SEMkpwS49ljbqkVWNaN3sEghvw4bmQRAFpKs"
+        "Ref": "MainLambdaVersionsKSksbqX97VAbrJA5u1an2PMbhk4xkj86HBTEkHSc"
       },
       "Export": {
         "Name": "sls-educational-db-dev-MainLambdaFunctionQualifiedArn"

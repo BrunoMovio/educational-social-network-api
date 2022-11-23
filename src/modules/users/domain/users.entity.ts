@@ -63,5 +63,6 @@ export class User extends Entity<UserProps> {
     if (props.state) this.props.state = props.state;
     if (props.country) this.props.country = props.country;
     if (props.career) this.props.career = props.career;
+    if (props.city) this.props.city = props.city;
   }
 }

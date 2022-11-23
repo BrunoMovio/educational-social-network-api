@@ -20,7 +20,7 @@ let CreatePostService = class CreatePostService {
     }
     async create(input) {
         const postFactory = new posts_factory_1.PostFactory(this.postRepository);
-        const post = await postFactory.create(Object.assign({}, input));
+        const post = await postFactory.create(Object.assign(Object.assign({}, input), { name: input.title }));
         return new post_output_1.PostDTO(post);
     }
 };

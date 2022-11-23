@@ -11,20 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserFactory = void 0;
 const common_1 = require("@nestjs/common");
-const user_orm_repository_1 = require("../infra/database/user.orm.repository");
 const users_entity_1 = require("./users.entity");
 let UserFactory = class UserFactory {
-    constructor(userRepository) {
-        this.userRepository = userRepository;
-    }
+    constructor() { }
     async create(input) {
-        const user = new users_entity_1.User(Object.assign(Object.assign({}, input), { description: input.description || "Descrição", role: users_entity_1.UserRoles[input.role] || users_entity_1.UserRoles.NORMAL, city: input.city || "São Paulo", state: input.state || "SP", country: input.country || "Brasil", career: input.country || "Brasil" }));
-        return this.userRepository.save(user);
+        const user = new users_entity_1.User(Object.assign(Object.assign({}, input), { description: input.description || "", role: users_entity_1.UserRoles[input.role] || users_entity_1.UserRoles.NORMAL, city: input.city || "", state: input.state || "", country: input.country || "", career: input.career || "" }));
+        return user;
     }
 };
 UserFactory = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_orm_repository_1.UserOrmRepository])
+    __metadata("design:paramtypes", [])
 ], UserFactory);
 exports.UserFactory = UserFactory;
 //# sourceMappingURL=users.factory.js.map

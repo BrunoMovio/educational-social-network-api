@@ -8,6 +8,6 @@ export declare class FolderOrmRepository extends TypeormRepositoryBase<Folder, F
     protected relations: string[];
     constructor(folderRepository: Repository<FolderOrm>);
     findManyByUserId(userId: string): Promise<Folder[]>;
-    findOneByName(name: string): Promise<Folder>;
+    findOneByTitle(title: string): Promise<Folder>;
     protected prepareQuery(params: QueryParams<FolderProps>): WhereCondition<FolderOrm>;
 }

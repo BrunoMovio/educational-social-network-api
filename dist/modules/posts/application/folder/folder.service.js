@@ -11,21 +11,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FolderService = void 0;
 const common_1 = require("@nestjs/common");
+const user_service_1 = require("../../../users/application/user.service");
 const id_1 = require("../../../../modules/common/domain/value-objects/id");
 const folder_orm_repository_1 = require("../../infra/database/folder/folder.orm.repository");
 const folder_output_1 = require("./dto/folder.output");
 let FolderService = class FolderService {
-    constructor(folderRepository) {
+    constructor(folderRepository, userService) {
         this.folderRepository = folderRepository;
+        this.userService = userService;
     }
     async findAll() {
         const folders = await this.folderRepository.findMany();
-        return folders.map((folder) => new folder_output_1.FolderDTO(folder));
+        return Promise.all(folders.map(async (folder) => {
+            const user = await this.userService.findById(folder.userId.value);
+            return new folder_output_1.FolderDTO(folder, user);
+        }));
     }
     async findFolder(id) {
         try {
-            const post = await this.folderRepository.findOne({ id: new id_1.ID(id) });
-            return new folder_output_1.FolderDTO(post);
+            const folder = await this.folderRepository.findOne({ id: new id_1.ID(id) });
+            const user = await this.userService.findById(folder.userId.value);
+            return new folder_output_1.FolderDTO(folder, user);
         }
         catch (e) {
             throw new common_1.NotFoundException("Folder not found with id: " + id);
@@ -33,12 +39,16 @@ let FolderService = class FolderService {
     }
     async findByUserId(userId) {
         const folders = await this.folderRepository.findManyByUserId(userId);
-        return folders.map((folder) => new folder_output_1.FolderDTO(folder));
+        return Promise.all(folders.map(async (folder) => {
+            const user = await this.userService.findById(folder.userId.value);
+            return new folder_output_1.FolderDTO(folder, user);
+        }));
     }
     async findByName(name) {
         try {
-            const folder = await this.folderRepository.findOneByName(name);
-            return new folder_output_1.FolderDTO(folder);
+            const folder = await this.folderRepository.findOneByTitle(name);
+            const user = await this.userService.findById(folder.userId.value);
+            return new folder_output_1.FolderDTO(folder, user);
         }
         catch (e) {
             throw new common_1.NotFoundException("Folder not found with name: " + name);
@@ -47,7 +57,8 @@ let FolderService = class FolderService {
 };
 FolderService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository])
+    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository,
+        user_service_1.UserService])
 ], FolderService);
 exports.FolderService = FolderService;
 //# sourceMappingURL=folder.service.js.map

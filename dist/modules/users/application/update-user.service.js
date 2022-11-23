@@ -34,8 +34,8 @@ let UpdateUserService = class UpdateUserService {
             country: input.country,
             career: input.career,
         });
-        const savedPost = await this.userRepository.save(user);
-        return new user_output_1.UserDTO(savedPost);
+        const savedUser = await this.userRepository.save(user);
+        return new user_output_1.UserDTO({ user: savedUser });
     }
 };
 UpdateUserService = __decorate([

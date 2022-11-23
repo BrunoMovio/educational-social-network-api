@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
 const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
-const post_orm_entity_1 = require("../modules/posts/infra/database/post/post.orm.entity");
-const folder_orm_entity_1 = require("../modules/posts/infra/database/folder/folder.orm.entity");
+const post_orm_entity_1 = require("../modules/posts/infra/post/post.orm.entity");
+const folder_orm_entity_1 = require("../modules/folders/infra/folder.orm.entity");
 const user_orm_entity_1 = require("../modules/users/infra/database/user.orm.entity");
 exports.default = {
     type: "postgres",

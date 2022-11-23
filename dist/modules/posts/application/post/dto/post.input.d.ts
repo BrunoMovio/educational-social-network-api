@@ -1,7 +1,7 @@
 import { PostTags } from "../../../domain/post/posts.entity";
 export declare class CreatePostInput {
     userId: string;
-    name: string;
+    title: string;
     markdown: string;
     tags: PostTags;
     folderId: string;

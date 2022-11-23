@@ -1,8 +1,8 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { join } from "path";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { PostOrm } from "../modules/posts/infra/database/post/post.orm.entity";
-import { FolderOrm } from "../modules/posts/infra/database/folder/folder.orm.entity";
+import { PostOrm } from "../modules/posts/infra/post/post.orm.entity";
+import { FolderOrm } from "../modules/folders/infra/folder.orm.entity";
 import { UserOrm } from "../modules/users/infra/database/user.orm.entity";
 
 export default {

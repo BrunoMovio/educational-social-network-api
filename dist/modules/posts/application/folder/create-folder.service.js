@@ -11,22 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateFolderService = void 0;
 const common_1 = require("@nestjs/common");
+const user_service_1 = require("../../../users/application/user.service");
 const folder_factory_1 = require("../../domain/folder/folder.factory");
 const folder_orm_repository_1 = require("../../infra/database/folder/folder.orm.repository");
 const folder_output_1 = require("./dto/folder.output");
 let CreateFolderService = class CreateFolderService {
-    constructor(folderRepository) {
+    constructor(folderRepository, userService) {
         this.folderRepository = folderRepository;
+        this.userService = userService;
     }
     async create(input) {
+        const user = await this.userService.findById(input.userId);
         const folderFactory = new folder_factory_1.FolderFactory(this.folderRepository);
         const folder = await folderFactory.create(Object.assign({}, input));
-        return new folder_output_1.FolderDTO(folder);
+        return new folder_output_1.FolderDTO(folder, user);
     }
 };
 CreateFolderService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository])
+    __metadata("design:paramtypes", [folder_orm_repository_1.FolderOrmRepository,
+        user_service_1.UserService])
 ], CreateFolderService);
 exports.CreateFolderService = CreateFolderService;
 //# sourceMappingURL=create-folder.service.js.map

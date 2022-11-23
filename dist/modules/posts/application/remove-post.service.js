@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemovePostService = void 0;
 const common_1 = require("@nestjs/common");
 const id_1 = require("../../../modules/common/domain/value-objects/id");
-const post_orm_repository_1 = require("../infra/database/post.orm.repository");
+const post_orm_repository_1 = require("../infra/post/post.orm.repository");
 let RemovePostService = class RemovePostService {
     constructor(postReporsitory) {
         this.postReporsitory = postReporsitory;
@@ -20,7 +20,7 @@ let RemovePostService = class RemovePostService {
     async remove(id) {
         const post = await this.postReporsitory.findOneByIdOrThrow(new id_1.ID(id));
         await this.postReporsitory.delete(post);
-        return "Post deletado";
+        return "Post removed";
     }
 };
 RemovePostService = __decorate([

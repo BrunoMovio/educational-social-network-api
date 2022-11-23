@@ -6,12 +6,23 @@ class Folder extends entity_base_1.Entity {
     get userId() {
         return this.props.userId;
     }
-    get name() {
-        return this.props.name;
+    get title() {
+        return this.props.title;
+    }
+    get description() {
+        return this.props.description;
+    }
+    get createdAt() {
+        return this.props.createdAt;
+    }
+    get updatedAt() {
+        return this.props.updatedAt;
     }
     updateFolder(props) {
-        if (props.name)
-            this.props.name = props.name;
+        if (props.title)
+            this.props.title = props.title;
+        if (props.description)
+            this.props.description = props.description;
     }
 }
 exports.Folder = Folder;

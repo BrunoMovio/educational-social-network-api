@@ -9,8 +9,10 @@ export declare class UserOrmRepository extends TypeormRepositoryBase<User, UserP
     private readonly userRepository;
     protected relations: string[];
     constructor(userRepository: Repository<UserOrm>);
+    protected PAGE_SIZE: number;
     findByName(name: string): Promise<User[]>;
     findByEmail(email: string): Promise<User>;
     findByNickname(nickname: string): Promise<User>;
+    findFeedByUserId(userId: string, page: number): Promise<User[]>;
     protected prepareQuery(params: QueryParams<UserProps>): WhereCondition<UserOrm>;
 }

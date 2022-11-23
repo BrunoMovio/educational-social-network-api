@@ -8,7 +8,12 @@ import {
   DataWithPaginationMeta,
 } from "../domain/ports/repository.ports";
 import { ID } from "../domain/value-objects/id";
-import { FindConditions, ObjectLiteral, Repository } from "typeorm";
+import {
+  DeepPartial,
+  FindConditions,
+  ObjectLiteral,
+  Repository,
+} from "typeorm";
 import { OrmMapper } from "./orm-mapper.base";
 
 export type WhereCondition<OrmEntity> =
@@ -20,7 +25,7 @@ export type WhereCondition<OrmEntity> =
 export abstract class TypeormRepositoryBase<
   Entity extends BaseEntityProps,
   EntityProps,
-  OrmEntity
+  OrmEntity extends DeepPartial<OrmEntity>
 > implements RepositoryPort<Entity, EntityProps>
 {
   protected constructor(

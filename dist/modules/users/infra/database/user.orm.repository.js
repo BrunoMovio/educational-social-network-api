@@ -27,6 +27,7 @@ let UserOrmRepository = class UserOrmRepository extends typeorm_repository_base_
         super(userRepository, new user_orm_mapper_1.UserOrmMapper(), new common_1.Logger("post-repository"));
         this.userRepository = userRepository;
         this.relations = [];
+        this.PAGE_SIZE = 3;
     }
     async findByName(name) {
         const users = await this.userRepository.find({
@@ -51,6 +52,16 @@ let UserOrmRepository = class UserOrmRepository extends typeorm_repository_base_
             },
         });
         return this.mapper.toDomainEntity(user);
+    }
+    async findFeedByUserId(userId, page) {
+        const users = await this.userRepository.find({
+            where: {
+                userId: (0, typeorm_2.Not)(userId),
+            },
+            take: this.PAGE_SIZE,
+            skip: page * this.PAGE_SIZE,
+        });
+        return users.map((user) => this.mapper.toDomainEntity(user));
     }
     prepareQuery(params) {
         const where = {};

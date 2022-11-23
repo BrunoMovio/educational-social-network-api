@@ -19,12 +19,12 @@ let UserService = class UserService {
     }
     async findAll() {
         const users = await this.userRepository.findMany();
-        return users.map((content) => new user_output_1.UserDTO(content));
+        return users.map((user) => new user_output_1.UserDTO({ user }));
     }
     async findById(id) {
         try {
             const user = await this.userRepository.findOneByIdOrThrow(id);
-            return new user_output_1.UserDTO(user);
+            return new user_output_1.UserDTO({ user });
         }
         catch (e) {
             console.log(e);
@@ -34,7 +34,7 @@ let UserService = class UserService {
     async findUsersByName(name) {
         try {
             const users = await this.userRepository.findByName(name);
-            return users.map((user) => new user_output_1.UserDTO(user));
+            return users.map((user) => new user_output_1.UserDTO({ user }));
         }
         catch (e) {
             throw new common_1.NotFoundException("User not found with name: " + name);
@@ -43,7 +43,7 @@ let UserService = class UserService {
     async findUsersByEmail(email) {
         try {
             const user = await this.userRepository.findByEmail(email);
-            return new user_output_1.UserDTO(user);
+            return new user_output_1.UserDTO({ user });
         }
         catch (e) {
             throw new common_1.NotFoundException("User not found with email: " + email);
@@ -52,7 +52,7 @@ let UserService = class UserService {
     async findUsersByNickname(nickname) {
         try {
             const user = await this.userRepository.findByNickname(nickname);
-            return new user_output_1.UserDTO(user);
+            return new user_output_1.UserDTO({ user });
         }
         catch (e) {
             throw new common_1.NotFoundException("User not found with nickname: " + nickname);

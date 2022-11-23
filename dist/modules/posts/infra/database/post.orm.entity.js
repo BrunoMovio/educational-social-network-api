@@ -21,11 +21,23 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], PostOrm.prototype, "name", void 0);
+], PostOrm.prototype, "folderId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], PostOrm.prototype, "title", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], PostOrm.prototype, "subtitle", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], PostOrm.prototype, "image", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "text" }),
     __metadata("design:type", String)
-], PostOrm.prototype, "markdown", void 0);
+], PostOrm.prototype, "text", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "jsonb" }),
     __metadata("design:type", Object)
@@ -34,9 +46,17 @@ __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
 ], PostOrm.prototype, "likes", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "boolean" }),
+    __metadata("design:type", Boolean)
+], PostOrm.prototype, "verified", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], PostOrm.prototype, "verifiedBy", void 0);
 PostOrm = __decorate([
     (0, typeorm_1.Entity)("post"),
-    (0, typeorm_1.Unique)("uq_post", ["userId", "name"])
+    (0, typeorm_1.Unique)("uq_post_folder", ["userId", , "folderId", "title"])
 ], PostOrm);
 exports.PostOrm = PostOrm;
 //# sourceMappingURL=post.orm.entity.js.map

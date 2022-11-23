@@ -5,7 +5,7 @@ import { User, UserRoles } from "./users.entity";
 
 @Injectable()
 export class UserFactory {
-  constructor(private userRepository: UserOrmRepository) {}
+  constructor() {}
 
   async create(input: CreateUserInput) {
     const user = new User({
@@ -18,6 +18,6 @@ export class UserFactory {
       career: input.career || "",
     });
 
-    return this.userRepository.save(user);
+    return user;
   }
 }

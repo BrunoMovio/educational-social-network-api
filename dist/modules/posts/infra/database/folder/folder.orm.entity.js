@@ -21,7 +21,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], FolderOrm.prototype, "name", void 0);
+], FolderOrm.prototype, "title", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], FolderOrm.prototype, "description", void 0);
 FolderOrm = __decorate([
     (0, typeorm_1.Entity)("folder"),
     (0, typeorm_1.Unique)("uq_folder", ["userId", "name"])

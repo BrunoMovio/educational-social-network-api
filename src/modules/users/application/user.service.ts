@@ -8,14 +8,14 @@ export class UserService {
 
   async findAll(): Promise<UserDTO[]> {
     const users = await this.userRepository.findMany();
-    return users.map((content) => new UserDTO(content));
+    return users.map((user) => new UserDTO({ user }));
   }
 
   async findById(id: string): Promise<UserDTO> {
     try {
       const user = await this.userRepository.findOneByIdOrThrow(id);
 
-      return new UserDTO(user);
+      return new UserDTO({ user });
     } catch (e) {
       console.log(e);
       throw new NotFoundException("User not found with id: " + id);
@@ -26,7 +26,7 @@ export class UserService {
     try {
       const users = await this.userRepository.findByName(name);
 
-      return users.map((user) => new UserDTO(user));
+      return users.map((user) => new UserDTO({ user }));
     } catch (e) {
       throw new NotFoundException("User not found with name: " + name);
     }
@@ -36,7 +36,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findByEmail(email);
 
-      return new UserDTO(user);
+      return new UserDTO({ user });
     } catch (e) {
       throw new NotFoundException("User not found with email: " + email);
     }
@@ -46,7 +46,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findByNickname(nickname);
 
-      return new UserDTO(user);
+      return new UserDTO({ user });
     } catch (e) {
       throw new NotFoundException("User not found with nickname: " + nickname);
     }
